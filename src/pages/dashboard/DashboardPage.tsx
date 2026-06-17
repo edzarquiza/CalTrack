@@ -7,7 +7,7 @@ import { useWeightLog } from '@/hooks/useWeightLog'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
 import { Button } from '@/components/ui/button'
-import { today, formatDate, clamp } from '@/lib/utils'
+import { today, localDate, formatDate, clamp } from '@/lib/utils'
 
 export function DashboardPage() {
   const { profile } = useApp()
@@ -22,14 +22,14 @@ export function DashboardPage() {
   function prevDay() {
     const d = new Date(date + 'T00:00:00')
     d.setDate(d.getDate() - 1)
-    setSearchParams({ date: d.toISOString().split('T')[0] }, { replace: true })
+    setSearchParams({ date: localDate(d) }, { replace: true })
   }
 
   function nextDay() {
     if (isToday) return
     const d = new Date(date + 'T00:00:00')
     d.setDate(d.getDate() + 1)
-    const next = d.toISOString().split('T')[0]
+    const next = localDate(d)
     if (next >= today()) setSearchParams({}, { replace: true })
     else setSearchParams({ date: next }, { replace: true })
   }
